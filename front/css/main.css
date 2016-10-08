@@ -11,11 +11,15 @@
    ========================================================================== */
 
 html {
-    color: #222;
-    font-size: 1em;
-    line-height: 1.4;
+    color: #365158;
+    font-size: 120px;
+    line-height: 125px;
+    overflow: hidden;
+    font-family: monospace, 'ヒラギノ丸ゴ ProN W4', 'Hiragino Maru Gothic ProN' !important;
 }
-
+body {
+    height:100%;
+}
 /*
  * Remove text-shadow in selection highlight:
  * https://twitter.com/miketaylr/status/12228805301
@@ -46,70 +50,6 @@ hr {
     margin: 1em 0;
     padding: 0;
 }
-
-/*
- * Remove the gap between audio, canvas, iframes,
- * images, videos and the bottom of their containers:
- * https://github.com/h5bp/html5-boilerplate/issues/440
- */
-
-audio,
-canvas,
-iframe,
-img,
-svg,
-video {
-    vertical-align: middle;
-}
-
-/*
- * Remove default fieldset styles.
- */
-
-fieldset {
-    border: 0;
-    margin: 0;
-    padding: 0;
-}
-
-/*
- * Allow only vertical resizing of textareas.
- */
-
-textarea {
-    resize: vertical;
-}
-
-/* ==========================================================================
-   Browser Upgrade Prompt
-   ========================================================================== */
-
-.browserupgrade {
-    margin: 0.2em 0;
-    background: #ccc;
-    color: #000;
-    padding: 0.2em 0;
-}
-
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /* ==========================================================================
    Helper classes
@@ -185,98 +125,117 @@ textarea {
     clear: both;
 }
 
-/* ==========================================================================
-   EXAMPLE Media Queries for Responsive Design.
-   These examples override the primary ('mobile first') styles.
-   Modify as content requires.
-   ========================================================================== */
-
-@media only screen and (min-width: 35em) {
-    /* Style adjustments for viewports that meet the condition */
+table#clock_a {
+    position: absolute;
 }
 
-@media print,
-       (-webkit-min-device-pixel-ratio: 1.25),
-       (min-resolution: 1.25dppx),
-       (min-resolution: 120dpi) {
-    /* Style adjustments for high resolution devices */
+table#clock_b {
+    position: absolute;
 }
 
-/* ==========================================================================
-   Print styles.
-   Inlined to avoid the additional HTTP request:
-   http://www.phpied.com/delay-loading-your-print-css/
-   ========================================================================== */
+.td-time { 
+    border: 10px dotted black; 
+    border-top-style:none; 
+    border-left-style:none;
+    border-right-style:none;  
+} 
 
-@media print {
-    *,
-    *:before,
-    *:after,
-    *:first-letter,
-    *:first-line {
-        background: transparent !important;
-        color: #000 !important; /* Black prints faster:
-                                   http://www.sanbeiji.com/archives/953 */
-        box-shadow: none !important;
-        text-shadow: none !important;
-    }
+#front_cover{
+    word-wrap: break-word;
+    width: 10000px;
+    font-size: 20px;
+    line-height: 24px;
+    z-index: 10;
+}
+#front_header {
+    position: absolute;
+    top: 30%;
+    left: 18%;
+    text-align: center;
+    width: 60%;
+    padding: 20px;
+    z-index: 11;
+    font-size: 48px;
+    line-height: 54px;
+    border-radius: 5px;
+}
 
-    a,
-    a:visited {
-        text-decoration: underline;
-    }
+#front_header p {
+    margin: 20px;
+    padding: 0;
+}
 
-    a[href]:after {
-        content: " (" attr(href) ")";
-    }
+#front_switch {
+    text-align: center;
+    width: 160px;
+    margin: 0 auto;
+    height: 50px;
+}
 
-    abbr[title]:after {
-        content: " (" attr(title) ")";
-    }
+#front_header input {
+    display: none;
+}
 
-    /*
-     * Don't show links that are fragment identifiers,
-     * or use the `javascript:` pseudo protocol
-     */
+#front_header label{
+	display: block;
+	float: left;
+	cursor: pointer;
+	width: 60px;
+	margin: 0;
+	padding: 10px;
+	background: #bdc3c7;
+	color: #869198;
+	font-size: 16px;
+	text-align: center;
+	line-height: 1;
+	transition: .2s;
+}
+#front_header label:first-of-type{
+	border-radius: 3px 0 0 3px;
+}
+#front_header label:last-of-type{
+	border-radius: 0 3px 3px 0;
+}
+#front_header input[type="radio"]:checked + .switch-pai {
+	background-color: #a1b91d;
+	color: #fff;
+}
+#front_header input[type="radio"]:checked + .switch-phi {
+	background-color: #e67168;
+	color: #fff;
+}
 
-    a[href^="#"]:after,
-    a[href^="javascript:"]:after {
-        content: "";
-    }
+#front_header button {
+    display: block;
+    clear: both;
+	width: 100px;
+	margin: 10px auto;
+	padding: 10px;
+	background: #bdc3c7;
+	color: #869198;
+	font-size: 16px;
+	text-align: center;
+	line-height: 1;
+	transition: .2s;
+    border-radius: 3px;
+    border: none;
+}
+#front_header button:active {
+    background-color: #367198;
+	color: #fff;
+}
 
-    pre,
-    blockquote {
-        border: 1px solid #999;
-        page-break-inside: avoid;
-    }
+#front_header button:focus {
+    outline: none;
+}
 
-    /*
-     * Printing Tables:
-     * http://css-discuss.incutio.com/wiki/Printing_Tables
-     */
+.white_bg {
+    background: rgba(255, 255, 255, 0.9);
+}
 
-    thead {
-        display: table-header-group;
-    }
-
-    tr,
-    img {
-        page-break-inside: avoid;
-    }
-
-    img {
-        max-width: 100% !important;
-    }
-
-    p,
-    h2,
-    h3 {
-        orphans: 3;
-        widows: 3;
-    }
-
-    h2,
-    h3 {
-        page-break-after: avoid;
-    }
+.blurredElement {
+    filter: blur(3px);
+    filter: url("../blur.svg#gaussian_blur");
+    -webkit-filter: blur(3px);
+    -o-filter: blur(3px);
 }
