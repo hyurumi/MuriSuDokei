@@ -7,6 +7,13 @@ $('#front_cover').addClass("blurredElement");
 $('#front_title').html("無理数時計");
 $('#front_header').addClass("white_bg");
 
+$('#front_header button').click(function(){
+    $('#front_header').hide();
+    $('#front_cover').hide();
+    $('#clock_a').show();
+    $('#clock_b').show();
+});
+
 var pos = 27;
 var current_clock; // A or B;
 var time = "132938493281475284843647355121350194280796447582190389626029";
