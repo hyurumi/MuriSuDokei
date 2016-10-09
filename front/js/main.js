@@ -4,6 +4,8 @@ var pi = "3.14159265359626029406286208998628034825342117067982148086513282306647
 // Variables
 var current_clock; // A or B;
 var data = {};
+data.pi = {};
+data.phi = {};
 
 //initial ui settings
 $('#front_cover').html(pi);
@@ -19,15 +21,22 @@ $('#front_header button').click(function(){
 });
 
 //loading data
-getCSV(function(str){
+getCSV("pi",function(key, str){
     var tmp = str.split("\n");
     for(var i=0; i<tmp.length; ++i){
         var column = tmp[i].split(',');
         var time = column[0];
-        data[time] = { "position" : column[1], "sequence": column[2]};
+        data[key][time] = { "position" : column[1], "sequence": column[2]};
     }
-    console.log(data.length);
-    init();
+    getCSV("phi", function(key, str){
+        var tmp = str.split("\n");
+        for(var i=0; i<tmp.length; ++i){
+            var column = tmp[i].split(',');
+            var time = column[0];
+            data[key][time] = { "position" : column[1], "sequence": column[2]};
+        }
+        init();
+    })
 });
 
 
@@ -89,6 +98,10 @@ function jumpToNext(callback){
     });
 }
 
+function getCurrentMode (){
+    return $("#pi").prop("checked") ? "pi" : "phi";
+}
+
 
 /**
  * Execution part
@@ -110,20 +123,20 @@ function getRandomInt(min, max) {
 
 function getNow() {
     var current_time = moment().format('HHmmss');
-    return data[current_time];
+    return data[getCurrentMode()][current_time];
 }
 
 function getNext() {
     var next_time = moment().add(1,'s').format('HHmmss');
-    return data[next_time];
+    return data[getCurrentMode()][next_time];
 }
 
-function getCSV(callback){
+function getCSV(key, callback){
     var req = new XMLHttpRequest(); 
-    req.open("get", "data/pi.csv", true); 
+    req.open("get", "data/" + key +".csv", true); 
     req.send(null);
 	
     req.onload = function(){
-	    callback(req.responseText);
+	    callback(key, req.responseText);
     }
 }
