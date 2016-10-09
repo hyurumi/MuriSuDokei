@@ -20,52 +20,52 @@ const int HEAD_LENGTH = 27;
 const int TIME_LENGTH = 6;
 const int TAIL_LENGTH = 27;
 
+const string PI_FILE_PREFIX    = "pi-11million";
+const string PHI_FILE_PREFIX   = "phi-11million";
+const string E_FILE_PREFIX     = "e-2million";
+const string SQRT2_FILE_PREFIX = "sqrt2-10million";
+const string SQRT5_FILE_PREFIX = "sqrt5-10million";
 
-string PI_FILE_NAME    = "pi-11million.txt";
-string PHI_FILE_NAME   = "phi-11million.txt";
-string E_FILE_NAME     = "e-2million.txt";
-string SQRT2_FILE_NAME = "sqrt2-10million.txt";
+const string TXT_EXTENTION = ".txt";
+const string CSV_EXTENTION = ".csv";
 
-string PI_RESULT_FILE_NAME   = "pi-11million-result.csv";
-string PHI_RESULT_FILE_NAME  = "phi-11million-result.csv";
-string E_RESULT_FILE_NAME    = "e-2million-result.csv";
-string SQRT2_RESULT_FILE_NAME = "sqrt2-10million-result.csv";
+const string RESULT_SUFFIX = "-result";
+const string ERROR_SUFFIX  = "-error";
+const string MAX_SUFFIX    = "-max";
 
-string PHI_ERROR_FILE = "phi-11million-error.txt";
-string SQRT2_ERROR_FILE = "phi-11million-error.txt";
+int main(int argc, char *argv[]){
+	string FILE_PREFIX = PI_FILE_PREFIX;
 
-string PHI_MAX_FILE  = "phi-11million-max.txt";
-string SQRT2_MAX_FILE = "sqrt2-11million-max.txt";
+	//get file prefix from user input
+	if(argc == 2){
+		if(!strcmp(argv[1], "pi"))    FILE_PREFIX = PI_FILE_PREFIX;
+		if(!strcmp(argv[1], "phi"))   FILE_PREFIX = PHI_FILE_PREFIX;
+		if(!strcmp(argv[1], "e"))     FILE_PREFIX = E_FILE_PREFIX;
+		if(!strcmp(argv[1], "sqrt2")) FILE_PREFIX = SQRT2_FILE_PREFIX;
+		if(!strcmp(argv[1], "sqrt5")) FILE_PREFIX = SQRT5_FILE_PREFIX;
+	}
 
-string pi;
-string phi;
-string e;
-string sqrt2;
+	string FILE_NAME        = FILE_PREFIX                 + TXT_EXTENTION;
+	string RESULT_FILE_NAME = FILE_PREFIX + RESULT_SUFFIX + CSV_EXTENTION;
+	string ERROR_FILE_NAME  = FILE_PREFIX + ERROR_SUFFIX  + TXT_EXTENTION;
+	string MAX_FILE_NAME    = FILE_PREFIX + MAX_SUFFIX    + TXT_EXTENTION;
 
-int main(){
 	//get irrational number
-	ifstream efs(E_FILE_NAME);
-	efs >> e;
-	ifstream pifs(PI_FILE_NAME);
-	pifs >> pi;
-	ifstream phifs(PHI_FILE_NAME);
-	phifs >> phi;
-	ifstream sqrt2ifs(PHI_FILE_NAME);
-	sqrt2ifs >> sqrt2;
+	string irrational_value;
 
-	ofstream result_file (PHI_RESULT_FILE_NAME, ios::app);
-	ofstream error_file  (PHI_ERROR_FILE, ios::app);
-	ofstream min_max_file(PHI_MAX_FILE, ios::app);
+	ifstream fs(FILE_NAME);
+	fs >> irrational_value;
+
+	ofstream result_file (RESULT_FILE_NAME, ios::app);
+	ofstream error_file  (ERROR_FILE_NAME, ios::app);
+	ofstream min_max_file(MAX_FILE_NAME, ios::app);
 
 	//input
-	string irrational_value = "phi";
 	string time;
 
 	int current_pos = 0;
 	int max_pos = 0;
 	string max_value;
-	// int min_pos = INT_MAX;
-	// string min_value;
 
 	string digit_seq;
 
@@ -94,7 +94,7 @@ int main(){
 				cout << "current value is ...." << time << endl;
 				current_pos = find_place(irrational_value, time);
 				if(current_pos == -1){
-					if(irrational_value == "phi" && hour == 2 && minute ==6 && second == 38){
+					if(!strcmp(argv[1], "phi") && hour == 2 && minute ==6 && second == 38){
 						current_pos = 11105487;
 						digit_seq = "947315187927796468615913778020638646578519103554869611565090";
 						result_file << time << ',' << current_pos << ',' << digit_seq << endl;
@@ -108,10 +108,6 @@ int main(){
 					max_pos   = current_pos;
 					max_value = time;
 				}
-				// if(current_pos < min_pos){
-				// 	min_pos   = current_pos;
-				// 	min_value = time;
-				// }
 
 				digit_seq = get_digit_seq(irrational_value, current_pos);
 				result_file << time << ',' << current_pos << ',' << digit_seq << endl;
@@ -119,24 +115,14 @@ int main(){
 		}
 	}
 
-	// min_max_file << "min_position: " << max_pos << endl;
-	// min_max_file << "min_value: " << max_value << endl;
 	min_max_file << "max_position: " << max_pos << endl;
 	min_max_file << "max_value: " << max_value << endl;
 	return 0;
 }
 
-
 int find_place(string irrational_value, string time){
-	string find_value;
 
-	//select value
-	if(irrational_value == "pi")     find_value = pi;
-	if(irrational_value == "phi")    find_value = phi;
-	if(irrational_value == "e")      find_value = e;
-	if(irrational_value == "sqrt2")  find_value = sqrt2;
-
-	string::size_type position = find_value.find(time);
+	string::size_type position = irrational_value.find(time);
 
 	if(position == string::npos){
 		return -1;
@@ -147,18 +133,11 @@ int find_place(string irrational_value, string time){
 }
 
 string get_digit_seq(string irrational_value, int current_pos){
-	string find_value;
-	//select value
-	if(irrational_value == "pi")     find_value = pi;
-	if(irrational_value == "phi")    find_value = phi;
-	if(irrational_value == "e")      find_value = e;
-	if(irrational_value == "sqrt2")  find_value = sqrt2;
-
 	if(current_pos - HEAD_LENGTH > 0){
-		return find_value.substr(current_pos-HEAD_LENGTH, HEAD_LENGTH+TIME_LENGTH+TAIL_LENGTH);
+		return irrational_value.substr(current_pos-HEAD_LENGTH, HEAD_LENGTH+TIME_LENGTH+TAIL_LENGTH);
 	}
 	else{
-		return find_value.substr(0, HEAD_LENGTH+TIME_LENGTH+TAIL_LENGTH);
+		return irrational_value.substr(0, HEAD_LENGTH+TIME_LENGTH+TAIL_LENGTH);
 	}
 }
 
