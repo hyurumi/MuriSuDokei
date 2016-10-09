@@ -2,71 +2,55 @@
 
 // Variables
 var current_clock; // A or B;
-var data = {};
-data.pi = {};
-data.phi = {};
-data.sqrt2 ={};
-data.sqrt5={};
+var data = {
+    pi: {}, phi: {}, sqrt2:{}, sqrt5:{}
+};
 var left = 0;
+const TABLE_SIZE = 804;
 
-//initial ui settings
+/**
+ * Initialization
+ */
 var window_width = $(window).width();
-left = (window_width > 804) ? (window_width - 804) / 2 : 0;
+left = (window_width > TABLE_SIZE) ? (window_width - TABLE_SIZE) / 2 : 0;
 $(window).resize(function() {
     var window_width = $(window).width();
-    left = (window_width > 804) ? (window_width - 804) / 2 : 0;
+    left = (window_width > TABLE_SIZE) ? (window_width - TABLE_SIZE) / 2 : 0;
 });
 
 $('#clock_a').offset({ top: 16000, left: left});
 $('#clock_b').offset({ top: 18000, left: left});
 $('#clock_a').show();
 $('#clock_b').show();
+
+$('#mode_description').html(getCurrentModeSymbol());
+$('#widget input').click(function(){
+    $('#mode_description').html(getCurrentModeSymbol());
+});
+
 $('#widget').show();
 
-$('#mode_description').html(getCurrentModeDescribable());
-$('#widget input').click(function(){
-    $('#mode_description').html(getCurrentModeDescribable());
-});
-
-//loading data
-getCSV("pi",function(key, str){
-    var tmp = str.split("\n");
-    for(var i=0; i<tmp.length; ++i){
-        var column = tmp[i].split(',');
-        var time = column[0];
-        data[key][time] = { "position" : column[1], "sequence": column[2]};
-    }        
-    init();
-});
-
-getCSV("phi", function(key, str){
-     var tmp = str.split("\n");
-     for(var i=0; i<tmp.length; ++i){
-        var column = tmp[i].split(',');
-        var time = column[0];
-        data[key][time] = { "position" : column[1], "sequence": column[2]};
-     }
-});
-
-getCSV("sqrt2", function(key, str){
-     var tmp = str.split("\n");
-     for(var i=0; i<tmp.length; ++i){
-        var column = tmp[i].split(',');
-        var time = column[0];
-        data[key][time] = { "position" : column[1], "sequence": column[2]};
-     }
-});
-
-
-function init() {
+getData("pi",function(key, str){
     var all_table_columns = $('#clock_a td');
     all_table_columns.each (function(index, domEle){
         domEle.innerHTML = getNow().sequence[index];
     });
     current_clock = "A";
     prepare(getNow(),getNext());
-}
+});
 
+getData("phi");
+getData("sqrt2");
+
+$(function(){
+    setInterval(function(){
+        jumpToNext(prepare(getNow(), getNext()));
+    },1000);
+});
+
+/**
+ * Routine tasks
+ */
 function prepare(now, next) {
     var all_table_columns;
     var clock_next;
@@ -128,7 +112,7 @@ function getCurrentMode (){
     return ans;
 }
 
-function getCurrentModeDescribable (){
+function getCurrentModeSymbol (){
     var ans;
     if ($("#pi").prop("checked")) {
         ans = "π";
@@ -142,16 +126,17 @@ function getCurrentModeDescribable (){
     return ans;
 }
 
-/**
- * Execution part
- */
-
-$(function(){
-    setInterval(function(){
-        jumpToNext(prepare(getNow(), getNext()));
-    },1000);
-});
-
+function getData(mode, callback) {
+    getCSV(mode, function(key, str){
+        var tmp = str.split("\n");
+        for(var i=0; i<tmp.length; ++i){
+            var column = tmp[i].split(',');
+            var time = column[0];
+            data[mode][time] = { "position" : column[1], "sequence": column[2]};
+        }
+        if (callback != null) callback();
+    });
+}
 
 /**
  * Helpers
@@ -170,12 +155,12 @@ function getNext() {
     return data[getCurrentMode()][next_time];
 }
 
-function getCSV(key, callback){
+function getCSV(mode, callback){
     var req = new XMLHttpRequest(); 
-    req.open("get", "data/" + key +".csv", true); 
+    req.open("get", "data/" + mode +".csv", true); 
     req.send(null);
 	
     req.onload = function(){
-	    callback(key, req.responseText);
+	    callback(mode, req.responseText);
     }
 }
