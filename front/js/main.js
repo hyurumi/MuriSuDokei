@@ -7,9 +7,6 @@ data.pi = {};
 data.phi = {};
 
 //initial ui settings
-window.odometerOptions = { 
-    duration: 100
-};
 $('#clock_a').show();
 $('#clock_b').show();
 $('#widget').show();
