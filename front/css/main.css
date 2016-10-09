@@ -127,6 +127,7 @@ hr {
 
 table {
     color: lightgray;
+    margin: auto 0;
 }
 
 table#clock_a {

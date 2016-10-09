@@ -5,8 +5,18 @@ var current_clock; // A or B;
 var data = {};
 data.pi = {};
 data.phi = {};
+var left = 0;
 
 //initial ui settings
+var window_width = $(window).width();
+left = (window_width > 804) ? (window_width - 804) / 2 : 0;
+$(window).resize(function() {
+    var window_width = $(window).width();
+    left = (window_width > 804) ? (window_width - 804) / 2 : 0;
+});
+
+$('#clock_a').offset({ top: 16000, left: left});
+$('#clock_b').offset({ top: 18000, left: left});
 $('#clock_a').show();
 $('#clock_b').show();
 $('#widget').show();
@@ -37,9 +47,6 @@ getCSV("pi",function(key, str){
 
 
 function init() {
-
-    $('#clock_a').offset({ top: 16000, left:0 });
-    $('#clock_b').offset({ top: 18000, left:0 });
     var all_table_columns = $('#clock_a td');
     all_table_columns.each (function(index, domEle){
         domEle.innerHTML = getNow().sequence[index];
@@ -65,9 +72,9 @@ function prepare(now, next) {
         domEle.innerHTML = next.sequence[index];
     });
     if (now.position < next.position) {
-        clock_next.offset({ top: clock_now.offset().top - 2000, left:0 });
+        clock_next.offset({ top: clock_now.offset().top - 2000, left: left});
     } else {
-        clock_next.offset({ top: clock_now.offset().top + 2000, left:0 });
+        clock_next.offset({ top: clock_now.offset().top + 2000, left: left});
     }
 }
 
@@ -82,13 +89,13 @@ function jumpToNext(callback){
     }
     $("#time_position").html(getNow().position);
     $("html, body").animate({
-        scrollTop: clock.offset().top, 
-        scrollLeft: clock.offset().left
+        scrollTop: clock.offset().top,
+        scrollLeft: clock.offset().left,
     }, {
         duration: 300,
         specialEasing: {
-            width: "easeInOutExpo",
-            height: "easeInOutExpo"
+            scrollTop: "easeInOutExpo",
+            scrollLeft: "easeInOutExpo"
         }
     }, function(){
         callback();
