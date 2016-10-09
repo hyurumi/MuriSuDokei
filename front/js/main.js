@@ -18,6 +18,7 @@ $('#front_header button').click(function(){
     $('#front_cover').hide();
     $('#clock_a').show();
     $('#clock_b').show();
+    $('#widget').show();
 });
 
 //loading data
@@ -69,7 +70,7 @@ function prepare(now, next) {
         domEle.innerHTML = next.sequence[index];
     });
     if (now.position < next.position) {
-        clock_next.offset({ top: clock_now.offset().top  - 2000, left:0 });
+        clock_next.offset({ top: clock_now.offset().top - 2000, left:0 });
     } else {
         clock_next.offset({ top: clock_now.offset().top + 2000, left:0 });
     }
