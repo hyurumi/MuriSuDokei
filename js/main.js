@@ -3,7 +3,7 @@
 // Variables
 var current_clock; // A or B;
 var data = {
-    pi: {}, phi: {}, sqrt2:{}, sqrt5:{}
+    pi: {}, e: {}, phi: {}, sqrt2:{}, sqrt5:{}, ln2:{}
 };
 var left = 0;
 const TABLE_SIZE = 804;
@@ -18,8 +18,8 @@ $(window).resize(function() {
     left = (window_width > TABLE_SIZE) ? (window_width - TABLE_SIZE) / 2 : 0;
 });
 
-$('#clock_a').offset({ top: 16000, left: left});
-$('#clock_b').offset({ top: 18000, left: left});
+$('#clock_a').offset({ top: 20000, left: left});
+$('#clock_b').offset({ top: 22000, left: left});
 $('#clock_a').show();
 $('#clock_b').show();
 
@@ -40,7 +40,9 @@ getData("pi",function(key, str){
 });
 
 getData("phi");
+getData("e");
 getData("sqrt2");
+getData("ln2");
 
 $(function(){
     setInterval(function(){
@@ -102,12 +104,14 @@ function getCurrentMode (){
     var ans;
     if ($("#pi").prop("checked")) {
         ans = "pi";
+    }else if ($("#e").prop("checked")) {
+        ans = "e";
     }else if ($("#phi").prop("checked")) {
         ans = "phi";
     }else if ($("#sqrt2").prop("checked"))  {
         ans = "sqrt2";
-    } else {
-        ans = "sqrt5";
+    }else if ($("#ln2").prop("checked"))  {
+        ans = "ln2";
     }
     return ans;
 }
@@ -118,10 +122,12 @@ function getCurrentModeSymbol (){
         ans = "π";
     }else if ($("#phi").prop("checked")) {
         ans = "φ";
+    }else if ($("#e").prop("checked")) {
+        ans = "e";
     }else if ($("#sqrt2").prop("checked"))  {
         ans = "√2";
-    } else {
-        ans = "√5";
+    }else if ($("#ln2").prop("checked"))  {
+        ans = "ln2";
     }
     return ans;
 }
