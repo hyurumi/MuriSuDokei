@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
-
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/main.css">
     <script src="js/vendor/modernizr-2.8.3.min.js"></script>
@@ -166,28 +165,24 @@
         </tbody>
     </table>
 
-    <div id="front_header">
-        <p id="front_title"></p>
-        <div id="front_switch">
-            <input type="radio" name="type" id="pi" value="1" checked>
-            <label for="pi" class="switch-pi">円周率</label>
-            <input type="radio" name="type" id="phi" value="0">
-            <label for="phi" class="switch-phi">黄金比</label>
-        </div>
-        <button>起動</button>
-    </div>
-
-    <div id="front_cover"></div>
-
-    <div id="widget" style="display: none;">
-        
+    <div id="widget">
+        <p>無理数時計</p>
+        <p id="description"><span id="mode_description"/></span> の<span id="time_position"></span>番目</p>
+        <input type="radio" name="type" id="pi" value="0" checked>
+        <label for="pi">円周率</label>
+        <input type="radio" name="type" id="phi" value="1">
+        <label for="phi">黄金比</label>
+        <input type="radio" name="type" id="sqrt2" value="2">
+        <label for="sqrt2">２の平方根</label>
+        <input type="radio" name="type" id="sqrt5" value="3">
+        <label for="sqrt5">５の平方根</label>
     </div>
 
     <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
-    <script src="https://raw.githubusercontent.com/HubSpot/odometer/master/odometer.min.js"></script>
+    <script src="js/odometer.js"></script>
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>
 </body>

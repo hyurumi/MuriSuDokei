@@ -145,7 +145,7 @@ table#clock_b {
     color: #365158;
     content:":";
     position: absolute;
-    left: 316px;
+    left: 322px;
     top: 243px;
     font-size: 100px;
 }
@@ -159,109 +159,57 @@ table#clock_b {
     font-size: 100px;
 }
 
-#front_cover{
-    word-wrap: break-word;
-    width: 10000px;
-    font-size: 20px;
-    line-height: 24px;
-    z-index: 10;
-}
-#front_header {
-    position: absolute;
-    top: 30%;
-    left: 18%;
-    text-align: center;
-    width: 60%;
-    padding: 20px;
-    z-index: 11;
-    font-size: 48px;
-    line-height: 54px;
-    border-radius: 5px;
+
+/*
+ * Title Bar 
+ */
+
+ #widget {
+    position: fixed;
+    left: 0px;
+    width:100%;
+    height: 72px;
+    top: 0;
+    z-index: 100;
+    font-size: 30px;
+    background: rgba(10, 10, 10, 0.8);
 }
 
-#front_header p {
-    margin: 20px;
+#widget p{
+    float: left;
     padding: 0;
+    margin: 0;
+    margin-left: 30px;
+    line-height: 72px;
+    color: white;
+}
+#widget p#description {
+    width: 250px;
 }
 
-#front_switch {
-    text-align: center;
-    width: 160px;
-    margin: 0 auto;
-    height: 50px;
-}
-
-#front_header input {
+#widget input {
     display: none;
 }
 
-#front_header label{
+#widget label{
 	display: block;
 	float: left;
 	cursor: pointer;
-	width: 60px;
-	margin: 0;
-	padding: 10px;
-	background: #bdc3c7;
-	color: #869198;
+	margin: 20px 5px;
+	padding: 10px 20px;
+	background: transparent;
+	color: white;
 	font-size: 16px;
 	text-align: center;
 	line-height: 1;
 	transition: .2s;
-}
-#front_header label:first-of-type{
-	border-radius: 3px 0 0 3px;
-}
-#front_header label:last-of-type{
-	border-radius: 0 3px 3px 0;
-}
-#front_header input[type="radio"]:checked + .switch-pi {
-	background-color: #a1b91d;
-	color: #fff;
-}
-#front_header input[type="radio"]:checked + .switch-phi {
-	background-color: #e67168;
-	color: #fff;
+    border-radius: 18px;
 }
 
-#front_header button {
-    display: block;
-    clear: both;
-	width: 100px;
-	margin: 10px auto;
-	padding: 10px;
-	background: #bdc3c7;
-	color: #869198;
-	font-size: 16px;
-	text-align: center;
-	line-height: 1;
-	transition: .2s;
-    border-radius: 3px;
-    border: none;
+#widget input[type="radio"]:checked + label  {
+	background-color: white;
+	color: #365158;
 }
-
-#front_header button:active {
-    background-color: #367198;
-	color: #fff;
-}
-
-#front_header button:focus {
-    outline: none;
-}
-
-.white_bg {
-    background: rgba(255, 255, 255, 0.9);
-}
-
-.blurredElement {
-    filter: blur(3px);
-    filter: url("../blur.svg#gaussian_blur");
-    -webkit-filter: blur(3px);
-    -o-filter: blur(3px);
-}
-
-
-
 
 /*
  * odometer
