@@ -5,6 +5,8 @@ var current_clock; // A or B;
 var data = {};
 data.pi = {};
 data.phi = {};
+data.sqrt2 ={};
+data.sqrt5={};
 var left = 0;
 
 //initial ui settings
@@ -33,16 +35,26 @@ getCSV("pi",function(key, str){
         var column = tmp[i].split(',');
         var time = column[0];
         data[key][time] = { "position" : column[1], "sequence": column[2]};
-    }
-    getCSV("phi", function(key, str){
-        var tmp = str.split("\n");
-        for(var i=0; i<tmp.length; ++i){
-            var column = tmp[i].split(',');
-            var time = column[0];
-            data[key][time] = { "position" : column[1], "sequence": column[2]};
-        }
-        init();
-    })
+    }        
+    init();
+});
+
+getCSV("phi", function(key, str){
+     var tmp = str.split("\n");
+     for(var i=0; i<tmp.length; ++i){
+        var column = tmp[i].split(',');
+        var time = column[0];
+        data[key][time] = { "position" : column[1], "sequence": column[2]};
+     }
+});
+
+getCSV("sqrt2", function(key, str){
+     var tmp = str.split("\n");
+     for(var i=0; i<tmp.length; ++i){
+        var column = tmp[i].split(',');
+        var time = column[0];
+        data[key][time] = { "position" : column[1], "sequence": column[2]};
+     }
 });
 
 
