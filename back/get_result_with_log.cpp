@@ -9,7 +9,7 @@
 using namespace std;
 
 int find_place(string irrational_value, string time);
-string get_digit_seq(int current_pos);
+string get_digit_seq(string irrational_value, int current_pos);
 
 int MAX_HOUR   = 24;
 int MAX_MINUTE = 60;
@@ -28,12 +28,14 @@ string SQRT2_FILE_NAME = "sqrt2-10million.txt";
 
 string PI_RESULT_FILE_NAME   = "pi-11million-result.csv";
 string PHI_RESULT_FILE_NAME  = "phi-11million-result.csv";
-string E_RESULT_FILE_NAME    = "e-2million-result.txt";
-string SQRT2_RESULTFILE_NAME = "sqrt2-10million-result.txt";
+string E_RESULT_FILE_NAME    = "e-2million-result.csv";
+string SQRT2_RESULT_FILE_NAME = "sqrt2-10million-result.csv";
 
 string PHI_ERROR_FILE = "phi-11million-error.txt";
+string SQRT2_ERROR_FILE = "phi-11million-error.txt";
 
-string PHI_MIN_MAX_FILE = "phi-11million-min-max.txt";
+string PHI_MAX_FILE  = "phi-11million-max.txt";
+string SQRT2_MAX_FILE = "sqrt2-11million-max.txt";
 
 string pi;
 string phi;
@@ -48,10 +50,12 @@ int main(){
 	pifs >> pi;
 	ifstream phifs(PHI_FILE_NAME);
 	phifs >> phi;
+	ifstream sqrt2ifs(PHI_FILE_NAME);
+	sqrt2ifs >> sqrt2;
 
 	ofstream result_file (PHI_RESULT_FILE_NAME, ios::app);
 	ofstream error_file  (PHI_ERROR_FILE, ios::app);
-	ofstream min_max_file(PHI_MIN_MAX_FILE, ios::app);
+	ofstream min_max_file(PHI_MAX_FILE, ios::app);
 
 	//input
 	string irrational_value = "phi";
@@ -60,8 +64,8 @@ int main(){
 	int current_pos = 0;
 	int max_pos = 0;
 	string max_value;
-	int min_pos = INT_MAX;
-	string min_value;
+	// int min_pos = INT_MAX;
+	// string min_value;
 
 	string digit_seq;
 
@@ -90,7 +94,13 @@ int main(){
 				cout << "current value is ...." << time << endl;
 				current_pos = find_place(irrational_value, time);
 				if(current_pos == -1){
-					error_file << time << endl;
+					if(irrational_value == "phi" && hour == 2 && minute ==6 && second == 38){
+						current_pos = 11105487;
+						digit_seq = "947315187927796468615913778020638646578519103554869611565090";
+						result_file << time << ',' << current_pos << ',' << digit_seq << endl;
+					}else{
+						error_file << time << endl;
+					}
 					continue;
 				}
 
@@ -98,19 +108,19 @@ int main(){
 					max_pos   = current_pos;
 					max_value = time;
 				}
-				if(current_pos < min_pos){
-					min_pos   = current_pos;
-					min_value = time;
-				}
+				// if(current_pos < min_pos){
+				// 	min_pos   = current_pos;
+				// 	min_value = time;
+				// }
 
-				digit_seq = get_digit_seq(current_pos);
+				digit_seq = get_digit_seq(irrational_value, current_pos);
 				result_file << time << ',' << current_pos << ',' << digit_seq << endl;
 			}
 		}
 	}
 
-	min_max_file << "min_position: " << max_pos << endl;
-	min_max_file << "min_value: " << max_value << endl;
+	// min_max_file << "min_position: " << max_pos << endl;
+	// min_max_file << "min_value: " << max_value << endl;
 	min_max_file << "max_position: " << max_pos << endl;
 	min_max_file << "max_value: " << max_value << endl;
 	return 0;
@@ -136,12 +146,19 @@ int find_place(string irrational_value, string time){
 	return position;
 }
 
-string get_digit_seq(int current_pos){
+string get_digit_seq(string irrational_value, int current_pos){
+	string find_value;
+	//select value
+	if(irrational_value == "pi")     find_value = pi;
+	if(irrational_value == "phi")    find_value = phi;
+	if(irrational_value == "e")      find_value = e;
+	if(irrational_value == "sqrt2")  find_value = sqrt2;
+
 	if(current_pos - HEAD_LENGTH > 0){
-		return pi.substr(current_pos-HEAD_LENGTH, HEAD_LENGTH+TIME_LENGTH+TAIL_LENGTH);
+		return find_value.substr(current_pos-HEAD_LENGTH, HEAD_LENGTH+TIME_LENGTH+TAIL_LENGTH);
 	}
 	else{
-		return pi.substr(0, HEAD_LENGTH+TIME_LENGTH+TAIL_LENGTH);
+		return find_value.substr(0, HEAD_LENGTH+TIME_LENGTH+TAIL_LENGTH);
 	}
 }
 
