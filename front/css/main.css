@@ -125,6 +125,10 @@ hr {
     clear: both;
 }
 
+table {
+    color: lightslategray;
+}
+
 table#clock_a {
     position: absolute;
 }
@@ -134,11 +138,23 @@ table#clock_b {
 }
 
 .td-time { 
-    border: 10px dotted black; 
-    border-top-style:none; 
-    border-left-style:none;
-    border-right-style:none;  
+    color: #365158;
+    border: 10px solid black; 
+    border-left-style: none;
+    border-right-style: none;
 } 
+
+.td-time_left {
+    color: #365158;
+    border: 10px solid black; 
+    border-right-style: none;
+}
+
+.td-time_right {
+    color: #365158;
+    border: 10px solid black; 
+    border-left-style: none;
+}
 
 #front_cover{
     word-wrap: break-word;
@@ -220,6 +236,7 @@ table#clock_b {
     border-radius: 3px;
     border: none;
 }
+
 #front_header button:active {
     background-color: #367198;
 	color: #fff;
