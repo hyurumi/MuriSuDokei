@@ -14,13 +14,25 @@ $('#front_header button').click(function(){
     $('#clock_b').show();
 });
 
+//reset sessionStorage;
+window.sessionStorage.clear();
+
+//loading data
+getCSV(function(str){
+    var tmp = str.split("\n");
+    for(var i=0; i<tmp.length; ++i){
+        var column = tmp[i].split(',');
+        saveData(column[0], column[1] + ":" + column[2]);
+    }
+    console.log(sessionStorage);
+});
+
 var pos = 27;
 var current_clock; // A or B;
-var time = "132938493281475284843647355121350194280796447582190389626029";
 function init(pos) {
 
     $('#clock_a').offset({ top: 0, left:0 });
-    $('#clock_b').offset({ top: 1000, left:1000 });
+    $('#clock_b').offset({ top: 1000, left:0 });
     var all_table_columns = $('#clock_a td');
     all_table_columns.each (function(index, domEle){
         domEle.innerHTML = time.charAt(index);
@@ -46,7 +58,7 @@ function prepare(position) {
     all_table_columns.each (function(index, domEle){
         domEle.innerHTML = time.charAt(position - 27 + index);
     });
-    clock_next.offset({ top: getRandomInt(1000, 7000) + clock_now.offset().top, left:0 });
+    clock_next.offset({ top: 1000 + clock_now.offset().top, left:0 });
 }
 
 function jumpToNext(callback){
@@ -62,7 +74,7 @@ function jumpToNext(callback){
         scrollTop: clock.offset().top, 
         scrollLeft: clock.offset().left
     }, {
-        duration: 1000,
+        duration: 300,
         specialEasing: {
             width: "easeInOutExpo",
             height: "easeInOutExpo"
@@ -76,8 +88,8 @@ init(pos);
 
 $(function(){
     setInterval(function(){
-        //jumpToNext(prepare(getRandomInt(100,10000)));
-    },3000);
+        jumpToNext(prepare(getRandomInt(100,10000)));
+    },2000);
 });
 
 
@@ -86,4 +98,23 @@ $(function(){
  */
 function getRandomInt(min, max) {
   return Math.floor( Math.random() * (max - min + 1) ) + min;
+}
+
+function saveData (key, value){
+    window.sessionStorage.setItem(key, value);
+}
+
+function readData (key) {
+    window.sessionStorage.getItem(key);
+}
+
+function getCSV(callback){
+    var req = new XMLHttpRequest(); // HTTPでファイルを読み込むためのXMLHttpRrequestオブジェクトを生成
+    req.open("get", "pi.csv", true); // アクセスするファイルを指定
+    req.send(null); // HTTPリクエストの発行
+	
+    // レスポンスが返ってきたらconvertCSVtoArray()を呼ぶ	
+    req.onload = function(){
+	    callback(req.responseText); // 渡されるのは読み込んだCSVデータ
+    }
 }
