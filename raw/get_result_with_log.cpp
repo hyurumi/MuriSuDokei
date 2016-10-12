@@ -21,8 +21,8 @@ const int TIME_LENGTH = 6;
 const int TAIL_LENGTH = 27;
 
 const string PI_FILE_PREFIX    = "pi-11million";
-const string PHI_FILE_PREFIX   = "phi-11million";
-const string E_FILE_PREFIX     = "e-2million";
+const string PHI_FILE_PREFIX   = "phi-12million";
+const string E_FILE_PREFIX     = "e-12million";
 const string SQRT2_FILE_PREFIX = "sqrt2-10million";
 const string SQRT5_FILE_PREFIX = "sqrt5-10million";
 
@@ -94,13 +94,7 @@ int main(int argc, char *argv[]){
 				cout << "current value is ...." << time << endl;
 				current_pos = find_place(irrational_value, time);
 				if(current_pos == -1){
-					if(!strcmp(argv[1], "phi") && hour == 2 && minute ==6 && second == 38){
-						current_pos = 11105487;
-						digit_seq = "947315187927796468615913778020638646578519103554869611565090";
-						result_file << time << ',' << current_pos << ',' << digit_seq << endl;
-					}else{
-						error_file << time << endl;
-					}
+ 					error_file << time << endl;
 					continue;
 				}
 
